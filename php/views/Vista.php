@@ -10,7 +10,6 @@ class Vista extends \Slim\View
     }
     public function render( $template ) {
         extract($this->data);
-        //$templatePath = $this->getTemplatesDirectory() . '/' . ltrim($template, '/');
         $templatePath = "./views" . '/' . ltrim($template, '/');
         if ( !file_exists($templatePath) ) {
             throw new RuntimeException('View cannot render template `' . $templatePath . '`. Template does not exist !.');
@@ -24,7 +23,6 @@ class Vista extends \Slim\View
     {
         if(self::$_layout !== NULL)
         {
-            //$layout_path = $this->getTemplatesDirectory() . '/' . ltrim(self::$_layout, '/');
             $layout_path = "./views" . '/' . ltrim(self::$_layout, '/');
             if ( !file_exists($layout_path) ) {
                 throw new RuntimeException('View cannot render layout `' . $layout_path . '`. Layout does not exist.');

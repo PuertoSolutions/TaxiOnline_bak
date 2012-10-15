@@ -8,7 +8,7 @@
 		protected function conectar(
 			$host = "localhost", 
 			$puerto = "27017",
-			$usuario = NULL, $pass = NULL) {
+			$usuario =NULL , $pass = NULL) {
 			try {
 				$connS = (is_null($usuario && $pass)) ? 
 					"mongodb://$usuario:$pass@$host:$puerto/TaxiOnline" : 
@@ -29,6 +29,31 @@
 		
 		protected function insert($document){
 			$this -> col -> insert($document);
+			return "Pedido Registrado con ID: ". $document['_id'];
+		}
+		
+		protected function get($f = NULL){
+			$cursor = (is_null($f)) ? 
+				$this -> col ->find() :
+				$this -> col ->find($f);
+			$k = array(); $i = 0;
+			while ($cursor -> hasNext()) {
+				$k[$i] = $cursor -> getNext();
+				$i++;
+			}
+			return $k;
+		}
+		
+		protected function update($c, $v){
+			return $this -> col -> update($c, $v);
+		}
+		
+		protected function delete($c, $one = FALSE){
+			return $this -> col -> remove($c, $one);
+		}
+		
+		protected function ensureIndex($c){
+			return $this -> col -> ensureIndex($this -> col, $c);
 		}
 	}
 ?>
