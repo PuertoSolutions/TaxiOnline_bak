@@ -19,8 +19,8 @@
 		$app -> render("registro.php");
 	});
 	
-	$app -> get('/Pedido', function() use ($app){
-		$app -> render("pedido.php");
+	$app -> get('/PedidoExpress', function() use ($app){
+		$app -> render("pedidoexpress.php");
 	});
 	
 	$app -> get('/', function() use ($app){
@@ -55,8 +55,8 @@
 			$app -> request() ->params("telefono")
 		);
 		$calles = new Calles( array(
-			array("Calle" => $app -> request() ->params("origen")),
-			array("Calle" => $app -> request() ->params("destino"))
+			array("Calle" => strtolower(($app -> request() ->params("origen")))),
+			array("Calle" => strtolower($app -> request() ->params("destino")))
 		));
 		$data = array(
 			"Mensaje" => print_r($pedidoEx -> Guardar(), TRUE),

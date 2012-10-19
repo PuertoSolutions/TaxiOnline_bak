@@ -12,9 +12,12 @@
 		
 		public function Guardar(){
 			try {
-				$this -> col -> batchInsert($this -> Calles, array('continueOnError' => true));
+				foreach ($this -> Calles as $calle) {
+					$this -> col -> insert($calle);
+				}
+				$this -> col -> ensureIndex(array('Calle' => 1), array('unique' => TRUE));
 			} catch (Exception $e) {
-				#throw new RuntimeException("Error al reservar :C " . $e);
+				throw new RuntimeException("Error al reservar :C " . $e);
 			}
 		}
 		
