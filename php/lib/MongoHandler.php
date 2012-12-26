@@ -5,17 +5,16 @@
 		protected $db = NULL;
 		protected $col = NULL;
 				
-		protected function conectar(
-			$host = "localhost", 
-			$puerto = "27017",
-			$usuario =NULL , $pass = NULL) {
-			try {
-				$connS = (is_null($usuario && $pass)) ? 
-					"mongodb://$usuario:$pass@$host:$puerto/TaxiOnline" : 
-					"mongodb://$host:$puerto/TaxiOnline";
-				$this -> m = new Mongo($connS, array("persist" => "x"));				
+		protected function conectar() {
+			$connS = "";
+			try {			
+				$connS = ($_ENV["modo"] == "p") ? 
+					"mongodb://admin:VSlQ6VSbi9PC@127.13.111.1:27017/TaxiOnline" : 
+					"mongodb://localhost:27017/TaxiOnline";
+				$this -> m = new Mongo($connS);
+				$this->db = $this->m->selectDB("TaxiOnline");
 			} catch (Exception $e) {
-				throw new RuntimeException("No es posible conectar a: mongodb://$host:$puerto". $e);
+				throw new RuntimeException("No es posible conectar a: $connS ". $e);
 			}
 		}
 		
@@ -32,10 +31,10 @@
 			return "Pedido Registrado con ID: ". $document['_id'];
 		}
 		
-		protected function get($f = NULL){
-			$cursor = (is_null($f)) ? 
+		protected function get($criterio = NULL){
+			$cursor = (is_null($criterio)) ? 
 				$this -> col ->find() :
-				$this -> col ->find($f);
+				$this -> col ->find($criterio);
 			$k = array(); $i = 0;
 			while ($cursor -> hasNext()) {
 				$k[$i] = $cursor -> getNext();
@@ -44,16 +43,20 @@
 			return $k;
 		}
 		
-		protected function update($c, $v){
-			return $this -> col -> update($c, $v);
+		protected function update($criterio, $valores){
+			return $this -> col -> update($criterio, $valores);
 		}
 		
-		protected function delete($c, $one = FALSE){
-			return $this -> col -> remove($c, $one);
+		protected function delete($criterio, $one = FALSE){
+			return $this -> col -> remove($criterio, $one);
 		}
 		
-		protected function ensureIndex($c){
-			return $this -> col -> ensureIndex($this -> col, $c);
+		protected function ensureIndex($criterio){
+			return $this -> col -> ensureIndex($this -> col, $criterio);
+		}
+		
+		protected function getOne($criterio){
+			return $this->col->findOne($criterio);
 		}
 	}
 ?>

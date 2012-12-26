@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	try{
-		$.get("/Querys/Calles", {}, function(data){
+		alert();
+		$.get("/Reserva/Calles", {}, function(data){
 			var ObjCalles = $.parseJSON(data);
 			var calles = new Array();
 			for(x in ObjCalles){
