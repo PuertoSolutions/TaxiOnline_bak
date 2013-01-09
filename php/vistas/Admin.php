@@ -11,7 +11,7 @@
 			</thead>
 			<tbody>
 <?php
-	require '/Modelos/Empresa.php';
+	require '../Modelos/Empresa.php';
 	$empresas = new Empresa(null);
 	foreach ($empresas->getEmpresas(null, array("Nombre" => 1)) as $empresa) {
 		echo '<tr id="'.$empresa["_id"].'" class="tr_click">';
