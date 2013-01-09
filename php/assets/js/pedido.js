@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	try{
-		alert();
 		$.get("/Reserva/Calles", {}, function(data){
 			var ObjCalles = $.parseJSON(data);
 			var calles = new Array();

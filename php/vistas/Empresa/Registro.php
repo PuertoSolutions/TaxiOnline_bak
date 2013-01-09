@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="span12">
-		<form class="form-horizontal" action="/Empresa/Registro" method="post">
+		<form class="form-horizontal" action="/Registro/Empresa" method="post">
     		<fieldset>
     			<div id="legend" class=""><legend class="">Nueva Empresa</legend></div>
 		    	<div class="control-group">

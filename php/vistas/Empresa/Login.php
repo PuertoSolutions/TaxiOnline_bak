@@ -26,12 +26,12 @@
 	}
 </style>
 
-<form class="form-signin" action="/Empresa/Login" method="post">
+<form class="form-signin" action="/Login/Empresa" method="post">
 	<h2 class="form-signin-heading">Inicio sesión Empresas</h2>
 	<input type="text" class="input-block-level" placeholder="Empresa" 
 		name="nombreempresa" required="required">
 	<input type="password" class="input-block-level" placeholder="Contraseña" 
 		name="pass" required="required">
 	<button class="btn btn-large btn-primary" type="submit">Iniciar</button>
-	<a href="/Empresa/Registro" target="_self" class="btn btn-inverse">Formulario Registro &raquo;</a>
+	<a href="/Registro/Empresa" target="_self" class="btn btn-inverse">Formulario Registro &raquo;</a>
 </form>
