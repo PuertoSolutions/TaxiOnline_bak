@@ -37,6 +37,7 @@
 						$_SESSION["Usuario"] = $existe["Nombre"];
 						$_SESSION["Mail"] = $existe["Mail"];
 						$_SESSION["Tema"] = (array_key_exists('Preferencias', $existe)) ? $existe["Preferencias"]["Tema"] : "default";
+						$_SESSION["Perfil"] = "Usuario";
 						return array("Mensaje" => "Redirigiendo", "Detalle" => "", "Tiempo" => 2000);
 					}else{
 						return array("Mensaje" => "Pass Incorrecta", "Detalle" => "Escribe bien...", "Tiempo" => 2000);

@@ -14,29 +14,29 @@
 			$this->setCollections("Empresa");
 		}
 		
-		public function getEmpresas($criterio = null){
-			return !is_null($criterio) ? $this->get($criterio) : $this->get();
+		public function getEmpresas($criterio = null, $campos = null){
+			return $this->get($criterio, $campos);
 		}
 		
-		public function setPermisos($ids){
+		public function ActualizarEmpresa($id, $estado, $nombre_sistema){
 			try{
 				$ch = curl_init();
-				foreach ($ids as $id) {
-					$mongoID = new MongoID($id);
 					curl_setopt($ch, CURLOPT_URL, $this->url);
 					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 					$this->update(
-						array("_id" => $mongoID), 
+						array("_id" => $id), 
 						array('$set' => array(
-								"Estado" => "Activo",
-								"Pass" => str_replace("\n", "", curl_exec($ch))
+							"Contacto" => $this->Contacto,
+							"Estado" => $estado,
+							"NombreSistema" => $nombre_sistema,
+							"Pass" => str_replace("\n", "", curl_exec($ch))
 							)
 						)
 					);
+					$this->col->ensureIndex(array("NombreSistema" => 1), array("unique" => TRUE));
 					curl_close($ch);
-					return array("Mensaje" => "Permisos Actualizados!", 
+					return array("Mensaje" => "Valores Actualizados!", 
 						"Detalle" => "Los datos se han guardado.", "Tiempo" => 5000);
-				}
 			}catch(Exception $e){
 				throw new RuntimeException("Error al Guardar Permisos: $e");
 			}
@@ -70,16 +70,19 @@
 		public function getLogin(){ return $this->Login(); }
 		private function Login(){
 			try{
-				$existe = $this->getOne(array("Mail" => $this->Mail));
+				$existe = $this->getOne(array("NombreSistema" => $this->Nombre));
 				if(empty($existe)){
 					return array("Mensaje" => "Usuario No Existe!", 
-						"Detalle" => "Comprueba el correo... escribiste bien ?", "Tiempo" => 3000);
+						"Detalle" => "Comprueba el Nombre de Usuario entregado... escribiste bien ?", "Tiempo" => 3000);
 				}else{
-					if($existe["Pass"] == md5($this->Pass)){
-						$_SESSION["Usuario"] = $existe["Nombre"];
-						$_SESSION["Mail"] = $existe["Mail"];
-						$_SESSION["Tema"] = (array_key_exists('Preferencias', $existe)) ? $existe["Preferencias"]["Tema"] : "default";
-						return array("Mensaje" => "Redirigiendo", "Detalle" => "", "Tiempo" => 2000);
+					if($existe["Pass"] == $this->Pass){
+						if($existe["Estado"] == "Activo"){
+							$_SESSION["Usuario"] = $existe["NombreSistema"];
+							$_SESSION["Perfil"] = "Empresa";
+							return array("Mensaje" => "Redirigiendo", "Detalle" => "", "Tiempo" => 2000);
+						}else{
+							return array("Mensaje" => "Cuenta no activa", "Detalle" => "Aún no activamos tu cuenta.", "Tiempo" => 2000);
+						}
 					}else{
 						return array("Mensaje" => "Pass Incorrecta", "Detalle" => "Escribe bien...", "Tiempo" => 2000);
 					}

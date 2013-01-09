@@ -3,7 +3,7 @@
 		
 		private $Origen, $Destino, $Telefono, $Estado, $Fecha, $Zonas;
 
-		public function __construct($origen, $destino, $telefono, $zonas){
+		public function __construct($origen = null, $destino = null, $telefono = null, $zonas = null){
 			$this -> Destino = $destino;
 			$this -> Estado = FALSE;
 			$this -> Origen = $origen;
@@ -14,6 +14,35 @@
 			$this -> setCollections("PedidosExpress");
 		}
 		
+		public function getPedidos(){
+			return $this -> get(array("Estado" => FALSE), array("Zonas" => 1));
+		}
+		
+		public function getPedido($id){
+			return $this -> getOne(
+				array("Estado" => TRUE, "_id" =>$id), 
+				array("Destino" => 1, "Origen" => 1, "Telefono" => 1)
+			);
+		}
+		
+		public function setEstado($id){
+			//Se entiende queda terminado Estado = true
+			$reserva = $this -> getOne(array("_id" => $id));
+			if($reserva["Estado"]){
+				//Alguien ya lo tomo
+				return array("Mensaje" => "Reserva tomada por otra empresa");
+			}else{
+				$this->update(
+					array("_id" => $id), 
+					array('$set' => array(
+						"Estado" => TRUE
+						)
+					)
+				);
+				return $this -> getPedido($id);
+			}
+		}
+				
 		public function putPedido(){return array(
 					"Mensaje" => print_r($this-> Guardar(), TRUE),
 					"Detalle" => "La empresa que acepte tu pedido deber&iacute;a

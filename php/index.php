@@ -27,15 +27,33 @@
 		echo phpinfo();
 	});
 		
-	
 	$app -> get('/Admin', function() use ($app){
 		$app -> render("Admin.php");
 	});
+	
+	$app -> get('/Admin/Query/:tipo/:valor', function($tipo, $valor) use ($app){
+		switch ($tipo) {
+			case 'Empresa':{
+				require 'modelos/Empresa.php';
+				$empresa = new Empresa(null);
+				echo json_encode($empresa -> getEmpresas(array("_id" => new MongoID($valor))));
+				break;
+			}
+			default:
+				
+				break;
+		}
+	});
+	
 		
 	$app -> get('/Registro/:tipo', function($data) use ($app){
 		switch ($data) {
 			case 'Usuario':{
 				$app -> render("RegistroUsuario.php");
+				break;
+			}
+			case 'Empresa':{
+				$app -> render("Empresa/Registro.php");
 				break;
 			}
 			default:{ break ; }
@@ -83,10 +101,6 @@
 				$app -> render("Empresa/Login.php");
 				break;
 			}
-			case 'Registro':{
-				$app -> render("Empresa/Registro.php");
-				break;
-			}
 			default:
 				
 				break;
@@ -106,13 +120,27 @@
 				$app->render("avisos.php", $usuario->putGuardar());
 				break;
 			}
+			case 'Empresa':{
+				require 'modelos/Empresa.php';
+				$empresa = new Empresa(
+					$app->request()->params("nombreempresa"),
+					null, null,
+					array(
+						"Nombre" => $app->request()->params("nombrecontacto"),
+						"Mail" => $app->request()->params("mailcontacto"),
+						"Telefono" => $app->request()->params("telefonocontacto"),
+					)
+				);
+				$app->render("avisos.php", $empresa->putGuardar());
+				break;
+			}
 			default:{ break ; }
 		}
 	});
 	
-	$app -> post('/Usuario/:tipo', function($data) use ($app){
+	$app -> post('/Login/:tipo', function($data) use ($app){
 		switch ($data) {
-			case 'Login':{
+			case 'Usuario':{
 				require 'modelos/Usuario.php';
 				$usuario = new Usuario(
 					null, 
@@ -122,6 +150,25 @@
 				$app->render("avisos.php", $usuario->getLogin());
 				break;
 			}
+			case 'Empresa':{
+				require 'modelos/Empresa.php';
+				$empresa = new Empresa(
+					$app->request()->params("nombreempresa"),
+					null,
+					$app->request()->params("pass")
+				);
+				$app->render("avisos.php", $empresa->getLogin());
+				break;
+			}
+			default:
+				
+				break;
+		}
+	});
+	
+	$app -> post('/Usuario/:tipo', function($data) use ($app){
+		switch ($data) {
+			
 			case 'Preferencias':{
 				require 'modelos/Usuario.php';
 				$usuario = new Usuario($_SESSION["Usuario"], $_SESSION["Mail"], null);
@@ -162,36 +209,19 @@
 			case 'Completo':{
 				break;
 			}
+			case 'CambiaEstado':{
+				require "modelos/PedidoExpress.php";
+				$pedido = new PedidoExpress();
+				echo json_encode($pedido -> setEstado(new MongoID($app -> request() ->params("id"))));
+				break;
+			}
 			default:{ break ; }
 		}
 	});
 	
 	$app -> post('/Empresa/:tipo', function($data) use ($app){
 		switch ($data) {
-			case 'Login':{
-				require 'modelos/Empresa.php';
-				$empresa = new Empresa(
-					$app->request()->params("nombreempresa"),
-					null,
-					$app->request()->params("pass")
-				);
-				$app->render("avisos.php", $usuario->getLogin());
-				break;
-			}
-			case 'Registro':{
-				require 'modelos/Empresa.php';
-				$empresa = new Empresa(
-					$app->request()->params("nombreempresa"),
-					null, null,
-					array(
-						"Nombre" => $app->request()->params("nombrecontacto"),
-						"Mail" => $app->request()->params("mailcontacto"),
-						"Telefono" => $app->request()->params("telefonocontacto"),
-					)
-				);
-				$app->render("avisos.php", $empresa->putGuardar());
-				break;
-			}
+			
 			default:{ break ; }
 		}
 	});
@@ -201,21 +231,28 @@
 			case 'Empresa':{
 				require 'modelos/Empresa.php';
 				switch ($act) {
-					case 'Permisos':{
-						$empresas = new Empresa(null);
-						$app->render("avisos.php", $empresas->setPermisos(
-							json_decode($app->request()->params("aValidar")))
+					case 'Guardar':{
+						$empresa = new Empresa(
+							null, null, null,
+							array(
+								"Nombre" => $app->request()->params("nombre_contacto"),
+								"Mail" => $app->request()->params("mail_contacto"),
+								"Telefono" => $app->request()->params("telefono_contacto"),
+							)
+						);
+						$app->render("avisos.php", $empresa ->ActualizarEmpresa(
+							new MongoID($app->request()->params("id")), 
+							$app->request()->params("estado"),
+							$app->request()->params("nombre_sistema"))
 						);
 						break;
 					}
 					default:
-						
 						break;
 				}
 				break;
 			}
 			default:
-				
 				break;
 		}
 	});

@@ -31,10 +31,13 @@
 			return "Pedido Registrado con ID: ". $document['_id'];
 		}
 		
-		protected function get($criterio = NULL){
-			$cursor = (is_null($criterio)) ? 
-				$this -> col ->find() :
-				$this -> col ->find($criterio);
+		protected function get($criterio = null, $campos = null){
+			$cursor = null;
+			if(is_null($campos)){
+				$cursor = (is_null($criterio)) ? $this -> col -> find() : $this -> col -> find($criterio); 
+			}else{
+				$cursor = (is_null($criterio)) ? $this -> col -> find(array(), $campos) :  $this -> col -> find($criterio, $campos);
+			}
 			$k = array(); $i = 0;
 			while ($cursor -> hasNext()) {
 				$k[$i] = $cursor -> getNext();
@@ -55,8 +58,12 @@
 			return $this -> col -> ensureIndex($this -> col, $criterio);
 		}
 		
-		protected function getOne($criterio){
-			return $this->col->findOne($criterio);
+		protected function getOne($criterio, $campos = null){
+			if(is_null($campos)){
+				return (is_null($criterio)) ? $this -> col -> findOne() : $this -> col -> findOne($criterio); 
+			}else{
+				return (is_null($criterio)) ? $this -> col -> findOne(array(), $campos) :  $this -> col -> findOne($criterio, $campos);
+			}
 		}
 	}
 ?>
