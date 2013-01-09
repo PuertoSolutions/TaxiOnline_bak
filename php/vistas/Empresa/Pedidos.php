@@ -22,7 +22,7 @@
 	</div>
 </p>
 <?php
-	require "Modelos/PedidoExpress.php";
+	require "modelos/PedidoExpress.php";
 	$pedidos_express = new PedidoExpress();
 	$pedidos_express = $pedidos_express -> getPedidos();
 	if(empty($pedidos_express)){
