@@ -26,7 +26,7 @@
 			 		<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
 			 			<span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
 		 			</a>
-		 			<a class="brand">TaxiOnline</a>
+		 			<a class="brand" href="/">TaxiOnline</a>
 		 			<div class="nav-collapse">
 		 				<ul class="nav">
 		 					<?php if(isset($_SESSION["Usuario"]) && $_SESSION["Perfil"] != "Empresa"){ ?>

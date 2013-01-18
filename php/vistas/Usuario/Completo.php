@@ -24,6 +24,24 @@
 						<legend>Formulario Pedido</legend>
 					</div>
 					<div class="control-group">
+						<label class="control-label" for="origen">Fecha</label>
+						<div class="controls">
+							<div class="input-append date" id="dp1" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
+								<input class="span2" size="16" type="text" value="12-02-2012" name="fecha">
+								<span class="add-on"><i class="icon-th"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="origen">Horario</label>
+						<div class="controls">
+							<input class="timepicker-2" type="text" style="width: 75px;" value="03:05"
+                               name="horaInicio" readonly="readonly" id="tp1"/>
+                        <i class="icon-time" style="margin: -2px 0 0 -22.5px; 
+                           pointer-events: none; position: relative;"></i>
+						</div>
+					</div>
+					<div class="control-group">
 						<label class="control-label" for="origen">Origen</label>
 						<div class="controls">
 							<input type="text" id="origen" name="origen" class="input-xlarge">
@@ -55,7 +73,11 @@
 			</form>
 		</div>
 	</div>
-<script src="/assets/js/pedidso.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="/assets/css/datepicker.css">
+	<link rel="stylesheet" href="/assets/css/timepicker.css">
+	<script src="/assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
+	<script src="/assets/js/bootstrap-timepicker.js" type="text/javascript"></script>
+	<script src="/assets/js/pedidoCompleto.js" type="text/javascript"></script>
 <?php }else{ ?>
 	<div class="alert">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
