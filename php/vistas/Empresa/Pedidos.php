@@ -41,7 +41,11 @@
 <?php
 		foreach ($pedidos_express as $pedido) {
 			echo "<tr id=\"".$pedido["_id"]."\" class=\"clickeable\" >";
-			echo "<td>".$pedido["_id"]."</td>";
+			echo "<td>".$pedido["_id"];
+			if(isset($pedido["Usuario"])){
+				echo " --- <small>Pedido de Usuario Registrado</small> <i class=\"icon-ok\"></i> ";
+			}
+			echo"</td>";
 			echo "<td>".$pedido["Zonas"]["Origen"]."</td>";
 			echo "<td>".$pedido["Zonas"]["Destino"]."</td>";
 			echo "</tr>";

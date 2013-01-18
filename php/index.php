@@ -1,6 +1,6 @@
 <?php
 
-	$_ENV['modo'] = "p"; // {d="desarrollo", p="produccion"}
+	$_ENV['modo'] = "d"; // {d="desarrollo", p="produccion"}
 	 error_reporting(E_ALL);
  	ini_set("display_errors", 1);
 	
@@ -51,7 +51,7 @@
 	$app -> get('/Registro/:tipo', function($data) use ($app){
 		switch ($data) {
 			case 'Usuario':{
-				$app -> render("RegistroUsuario.php");
+				$app -> render("Usuario/RegistroUsuario.php");
 				break;
 			}
 			case 'Empresa':{
@@ -65,7 +65,7 @@
 	$app -> get('/Usuario/:tipo', function($data) use ($app){
 		switch ($data) {
 			case 'Preferencias':{
-				$app -> render("Preferencias.php");
+				$app -> render("Usuario/Preferencias.php");
 				break;
 			}
 			case 'LogOut':{
@@ -80,11 +80,11 @@
 	$app -> get('/Reserva/:tipo', function($data) use ($app){
 		switch ($data) {
 			case 'Express':{
-				$app -> render("Express.php");
+				$app -> render("Usuario/Express.php");
 				break;
 			}
 			case 'Completo':{
-				$app -> render("Completo.php");
+				$app -> render("Usuario/Completo.php");
 				break;
 			}
 			case 'Calles':{

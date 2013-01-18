@@ -3,9 +3,9 @@
 		if($_SESSION["Perfil"] == "Empresa"){
 			require "Empresa/Pedidos.php";
 		}else{
-			echo "MOSTRAR ALGO";
+			require "Usuario/MisPedidos.php";
 		}
 	}else{
-		echo "Hola !";
+		require "Bienvenida.php";
 	}
 ?>

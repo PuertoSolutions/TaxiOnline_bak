@@ -14,8 +14,15 @@
 			$this -> setCollections("PedidosExpress");
 		}
 		
-		public function getPedidos(){
-			return $this -> get(array("Estado" => FALSE), array("Zonas" => 1));
+		public function getPedidos($campos = null){
+			if (is_null($campos)){
+				return $this -> get(array("Estado" => FALSE), array("Zonas" => 1, "Usuario" => 1));
+			}else{
+				return $this -> get(
+					$campos,
+					array("Destino" => 1, "Fecha.date" => 1, "Origen" => 1, "Tomado" => 1)
+				);
+			}
 		}
 		
 		public function getPedido($id){
@@ -35,7 +42,8 @@
 				$this->update(
 					array("_id" => $id), 
 					array('$set' => array(
-						"Estado" => TRUE
+						"Estado" => TRUE,
+						"Tomado" => $_SESSION["Usuario"]
 						)
 					)
 				);
@@ -52,19 +60,22 @@
 						"Tiempo" => 15000
 					);}
 		private function Guardar(){
-			try {				
-				return $this -> insert(
-					array(
+			try {
+				$valores = array(
 						"Destino" => $this->Destino,
 						"Estado" => $this->Estado,
 						"Origen" => $this->Origen,
 						"Telefono" => $this->Telefono,
 						"Fecha" => $this->Fecha,
 						"Zonas" => $this->Zonas
-					)
-				);
+					);
+					if(isset($_SESSION["Mail"])){
+						$valores["Usuario"] = $_SESSION["Mail"];
+						$valores["Evaluado"] = FALSE;
+					}
+				return $this -> insert($valores);
 			} catch (Exception $e) {
-				throw new RuntimeException("Error al reservar :() " . $e);
+				throw new RuntimeException("Error al reservar :( ) " . $e);
 			}
 		}
 		
