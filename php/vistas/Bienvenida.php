@@ -17,7 +17,7 @@
 			Radio Taxis, por lo que t&uacute; como usuario no tienes que preocuparte :)
 		</p>
 		<p>
-			Puedes usar el sistema ahora mismo desde el item <strong>Express</strong> el men&uacute; superior sin pasar por ning&uacute;n registro. <br />
+			Puedes usar el sistema ahora mismo desde el item <a href="/Reserva/Express"><strong>Express</strong></a> el men&uacute; superior sin pasar por ning&uacute;n registro. <br />
 			Si lo deseas, puedes registrarte para tener m&aacute;s beneficios.
 		</p>
 	</div>
@@ -29,7 +29,7 @@
 			mejoren.
 		</p>
 		<p>Consid&eacute;ralo un feed-back de parte tuya a la empresa.</p>
-		<p>
+		<!-- <p>
 			<blockquote class="pull-right">
 				<p>
 					La medición es la primera etapa que conduce al control.
@@ -39,7 +39,7 @@
 				</p>
 				<small>H. J. Harrington</small>
 			</blockquote>
-		</p>
+		</p>-->
 		<p>
 			Adem&aacute;s, entre los usuarios que voten se sortean movimientos gratis :) <br />
 			No es mucho, pero es gratis ...

@@ -50,8 +50,8 @@
 			return $this -> col -> update($criterio, $valores);
 		}
 		
-		protected function delete($criterio, $one = FALSE){
-			return $this -> col -> remove($criterio, $one);
+		protected function delete($criterio){
+			return $this -> col -> remove($criterio);
 		}
 		
 		protected function ensureIndex($criterio){

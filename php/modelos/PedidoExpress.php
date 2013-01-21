@@ -50,6 +50,19 @@
 				return $this -> getPedido($id);
 			}
 		}
+
+		public function setCancela($id){
+			$reserva = $this -> getOne(array("_id" => $id));
+			if($reserva["Estado"]){
+				//Alguien ya lo tomo
+				return array("Mensaje" => "Reserva tomada por empresa");
+			}else{
+				$this -> delete(
+					array("_id" => $id)
+				);
+				return array('Mensaje' => "Reserva Cancelada");
+			}
+		}
 				
 		public function putPedido(){return array(
 					"Mensaje" => print_r($this-> Guardar(), TRUE),

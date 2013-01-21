@@ -217,6 +217,16 @@
 				echo json_encode($pedido -> setEstado(new MongoID($app -> request() ->params("id"))));
 				break;
 			}
+			case 'Cancela':{
+				if ($app -> request() -> params("tipo") == "Express") {
+					require "modelos/PedidoExpress.php";
+					$pedido = new PedidoExpress();
+					echo json_encode($pedido -> setCancela(new MongoID($app -> request() -> params("id"))));
+				}else{
+
+				}
+				break;
+			}				
 			default:{ break ; }
 		}
 	});
